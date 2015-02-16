@@ -277,14 +277,14 @@ use C<:stats> to import C<statshash(@data)> and C<statsinfo(@data)>.
 
 Brian Lalonde E<lt>brian@webcoder.infoE<gt>, 
 C<stddev(@data)>, C<stddevp(@data)>, C<variance(@data)>, C<variancep(@data)>, 
-and additional motivation by Nathan Haigh.
+additional motivation by Nathan Haigh, with kind support from Alexander Zangerl.
 
 The project lives at https://github.com/brianary/Statistics-Lite
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright 2000 Brian Lalonde E<lt>brian@webcoder.infoE<gt> and Nathan Haigh,
-with kind support from Alexander Zangerl.
+Copyright 2000 Brian Lalonde E<lt>brian@webcoder.infoE<gt>, Nathan Haigh,
+and Alexander Zangerl.
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
