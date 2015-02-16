@@ -1,4 +1,6 @@
 *~
-Makefile
-MYMETA.*
+*.old
 *.gz
+MYMETA.*
+Makefile
+

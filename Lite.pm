@@ -3,7 +3,7 @@ use strict;
 use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
 require Exporter;
 
-$VERSION = '3.3';
+$VERSION = '3.4';
 @ISA = qw(Exporter);
 @EXPORT = ();
 @EXPORT_OK = qw(min max range sum count mean median mode variance stddev variancep stddevp statshash statsinfo frequencies);
@@ -217,13 +217,9 @@ This is also a module for dilettantes.
 When you just want something to give some very basic, high-school-level statistical values, 
 without having to set up and populate an object first, this module may be useful.
 
-=over 6
-
 =head2 NOTE
 
-This version now implements standard deviation and variance calculated by both the unbiased and biased estimators.
-
-=back
+This module implements standard deviation and variance calculated by both the unbiased and biased estimators.
 
 =head1 FUNCTIONS
 
@@ -233,7 +229,8 @@ This version now implements standard deviation and variance calculated by both t
 
 Return the minimum value, maximum value, range (max - min),
 sum, or count of values in C<@data>.
-(Count simply returns C<scalar(@data)>.)
+(Count simply returns C<scalar(@data)>. B<Please note> that this module does not ignore undefined values in your
+data; instead those are treated as zero.)
 
 =item C<mean(@data)>, C<median(@data)>, C<mode(@data)>
 
@@ -243,10 +240,15 @@ Calculates the mean, median, or mode average of the values in C<@data>.
 =item C<variance(@data)>, C<stddev(@data)>
 
 Return the standard deviation or variance of C<@data> for a sample (same as Excel's STDEV).
+This is also called the Unbiased Sample Variance and involves dividing the 
+sample's squared deviations by N-1 (the sample count minus 1).
+The standard deviation is just the square root of the variance.
 
 =item C<variancep(@data)>, C<stddevp(@data)>
 
 Return the standard deviation or variance of C<@data> for the population (same as Excel's STDEVP).
+This involves dividing the squared deviations of the population by N (the population size).
+The standard deviation is just the square root of the variance.
 
 =item C<statshash(@data)>
 
@@ -276,6 +278,18 @@ use C<:stats> to import C<statshash(@data)> and C<statsinfo(@data)>.
 Brian Lalonde E<lt>brian@webcoder.infoE<gt>, 
 C<stddev(@data)>, C<stddevp(@data)>, C<variance(@data)>, C<variancep(@data)>, 
 and additional motivation by Nathan Haigh.
+
+The project lives at https://github.com/brianary/Statistics-Lite
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright 2000 Brian Lalonde E<lt>brian@webcoder.infoE<gt> and Nathan Haigh,
+with kind support from Alexander Zangerl.
+
+This library is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+
+=cut
 
 =head1 SEE ALSO
 

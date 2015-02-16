@@ -1,5 +1,8 @@
 Revision history for Perl extension Statistics::Lite.
 
+3.4   Mon Feb 16 10:04:50 2015
+    - documentation fixes and additional tests
+    - now version controlled! https://github.com/brianary/Statistics-Lite
 3.3   Fri Feb 13 10:03:45 2015
     - added license info
 3.2   Sun Jun 24 11:13:00 2007

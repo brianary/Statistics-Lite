@@ -1,7 +1,7 @@
 #!perl
 use strict;
 use warnings;
-use Test::More tests => 28;
+use Test::More tests => 32;
 
 BEGIN { use_ok( 'Statistics::Lite', ':all' ); }
 
@@ -41,6 +41,13 @@ is($stats{mode},   2, "call mode - hash-based interface");
 is($stats{variance}, 1, "call variance - hash-based interface");
 is($stats{stddev},   1, "call stddev - hash-based interface");
 
+# a tiny bit more substantial data set
+%stats = statshash(0..10,1);
+is($stats{sum},56,"call sum - hash-based");
+is($stats{mean},4+2/3,"call mean - hash-based");
+is($stats{variance},11+1/3,"call variance - hash-based");
+is($stats{variancep},10.3+8/90,"call variancep - hash-based");
+
 
 %stats= statshash(2,4,2,4);
 ok($stats{variancep}, "call variancep - hash-based interface");
@@ -50,3 +57,4 @@ ok($stats{stddevp},   "call stddevp - hash-based interface");
 is($stats{1},1, "frequencies matched correctly");
 is($stats{2},1, "frequencies matched correctly");
 is($stats{3},2, "frequencies matched correctly");
+
