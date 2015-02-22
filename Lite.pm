@@ -3,7 +3,7 @@ use strict;
 use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
 require Exporter;
 
-$VERSION = '3.4';
+$VERSION = '3.5';
 @ISA = qw(Exporter);
 @EXPORT = ();
 @EXPORT_OK = qw(min max range sum count mean median mode variance stddev variancep stddevp statshash statsinfo frequencies);
@@ -14,69 +14,83 @@ $VERSION = '3.4';
 	stats => [qw<statshash statsinfo>],
 );
 
+sub definedvals
+{
+	return grep{defined}@_;
+}
+
 sub count
-{ return scalar @_; }
+{
+	return scalar definedvals @_;
+}
 
 sub min 
-{ 
-	return unless @_;
-	return $_[0] unless @_ > 1;
-	my $min= shift;
-	foreach(@_) { $min= $_ if $_ < $min; }
+{
+	my @data = definedvals @_;
+	return unless @data;
+	return $data[0] unless @data > 1;
+	my $min= shift @data;
+	foreach(@data) { $min= $_ if $_ < $min; }
 	return $min;
 }
 
 sub max 
 { 
-	return unless @_;
-	return $_[0] unless @_ > 1;
-	my $max= shift;
-	foreach(@_) { $max= $_ if $_ > $max; }
+	my @data = definedvals @_;
+	return unless @data;
+	return $data[0] unless @data > 1;
+	my $max= shift @data;
+	foreach(@data) { $max= $_ if $_ > $max; }
 	return $max;
 }
 
 sub range
 {
-	return unless @_;
-	return 0 unless @_ > 1;
-	return abs($_[1]-$_[0]) unless @_ > 2;
-	my $min= shift; my $max= $min;
-	foreach(@_) { $min= $_ if $_ < $min; $max= $_ if $_ > $max; }
+	my @data = definedvals @_;
+	return unless @data;
+	return 0 unless @data > 1;
+	return abs($data[1]-$data[0]) unless @data > 2;
+	my $min= shift @data; my $max= $min;
+	foreach(@data) { $min= $_ if $_ < $min; $max= $_ if $_ > $max; }
 	return $max - $min;
 }
 
 sub sum
 {
-	return unless @_;
-	return $_[0] unless @_ > 1;
+	my @data = definedvals @_;
+	return unless @data;
+	return $data[0] unless @data > 1;
 	my $sum;
-	foreach(@_) { $sum+= $_; }
+	foreach(@data) { $sum+= $_; }
 	return $sum;
 }
 
 sub mean
 {
-	return unless @_;
-	return $_[0] unless @_ > 1;
-	return sum(@_)/scalar(@_);
+	my @data = definedvals @_;
+	return unless @data;
+	return $data[0] unless @data > 1;
+	return sum(@data)/scalar(@data);
 }
 
 sub median
 {
-	return unless @_;
-	return $_[0] unless @_ > 1;
-	@_= sort{$a<=>$b}@_;
-	return $_[$#_/2] if @_&1;
-	my $mid= @_/2;
-	return ($_[$mid-1]+$_[$mid])/2;
+	my @data = definedvals @_;
+	return unless @data;
+	return $data[0] unless @data > 1;
+	@data= sort{$a<=>$b}@data;
+	return $data[$#data/2] if @data&1;
+	my $mid= @data/2;
+	return ($data[$mid-1]+$data[$mid])/2;
 }
 
 sub mode
 {
-	return unless @_;
-	return $_[0] unless @_ > 1;
+	my @data = definedvals @_;
+	return unless @data;
+	return $data[0] unless @data > 1;
 	my %count;
-	foreach(@_) { $count{$_}++; }
+	foreach(@data) { $count{$_}++; }
 	my $maxhits= max(values %count);
 	foreach(keys %count) { delete $count{$_} unless $count{$_} == $maxhits; }
 	return mean(keys %count);
@@ -84,60 +98,65 @@ sub mode
 
 sub variance
 {
-	return unless @_;
-	return 0 unless @_ > 1;
-	my $mean= mean @_;
-	return (sum map { ($_ - $mean)**2 } @_) / $#_;
+	my @data = definedvals @_;
+	return unless @data;
+	return 0 unless @data > 1;
+	my $mean= mean @data;
+	return (sum map { ($_ - $mean)**2 } @data) / $#data;
 }
 
 sub variancep
 {
-	return unless @_;
-	return 0 unless @_ > 1;
-	my $mean= mean @_;
-	return (sum map { ($_ - $mean)**2 } @_) / ( $#_ +1 );
+	my @data = definedvals @_;
+	return unless @data;
+	return 0 unless @data > 1;
+	my $mean= mean @data;
+	return (sum map { ($_ - $mean)**2 } @data) / ( $#data +1 );
 }
 
 sub stddev
 {
-	return unless @_;
-	return 0 unless @_ > 1;
-	return sqrt variance @_;
+	my @data = definedvals @_;
+	return unless @data;
+	return 0 unless @data > 1;
+	return sqrt variance @data;
 }
 
 sub stddevp
 {
-	return unless @_;
-	return 0 unless @_ > 1;
-	return sqrt variancep @_;
+	my @data = definedvals @_;
+	return unless @data;
+	return 0 unless @data > 1;
+	return sqrt variancep @data;
 }
 
 sub statshash
 {
-	return unless @_;
+	my @data = definedvals @_;
+	return unless @data;
 	return
 	(
 		count     => 1,
-		min       => $_[0],
-		max       => $_[0],
+		min       => $data[0],
+		max       => $data[0],
 		range     => 0,
-		sum       => $_[0],
-		mean      => $_[0],
-		median    => $_[0],
-		mode      => $_[0],
+		sum       => $data[0],
+		mean      => $data[0],
+		median    => $data[0],
+		mode      => $data[0],
 		variance  => 0,
 		stddev    => 0,
 		variancep => 0,
 		stddevp   => 0
-	) unless @_ > 1;
-	my $count= scalar(@_);
-	@_= sort{$a<=>$b}@_;
+	) unless @data > 1;
+	my $count= scalar(@data);
+	@data= sort{$a<=>$b}@data;
 	my $median;
-	if(@_&1) { $median= $_[$#_/2]; }
-	else { my $mid= @_/2; $median= ($_[$mid-1]+$_[$mid])/2; }
+	if(@data&1) { $median= $data[$#data/2]; }
+	else { my $mid= @data/2; $median= ($data[$mid-1]+$data[$mid])/2; }
 	my $sum= 0;
 	my %count;
-	foreach(@_) { $sum+= $_; $count{$_}++; }
+	foreach(@data) { $sum+= $_; $count{$_}++; }
 	my $mean= $sum/$count;
 	my $maxhits= max(values %count);
 	foreach(keys %count) 
@@ -145,17 +164,17 @@ sub statshash
 	return
 	(
 		count     => $count,
-		min       => $_[0],
-		max       => $_[-1],
-		range     => ($_[-1] - $_[0]),
+		min       => $data[0],
+		max       => $data[-1],
+		range     => ($data[-1] - $data[0]),
 		sum       => $sum,
 		mean      => $mean,
 		median    => $median,
 		mode      => mean(keys %count),
-		variance  => variance(@_),
-		stddev    => stddev(@_),
-		variancep => variancep(@_),
-		stddevp   => stddevp(@_)
+		variance  => variance(@data),
+		stddev    => stddev(@data),
+		variancep => variancep(@data),
+		stddevp   => stddevp(@data)
 	);
 }
 
@@ -180,10 +199,11 @@ stddevp   = $stats{stddevp}
 
 sub frequencies
 {
-	return unless @_;
-	return ( $_[0], 1 ) unless @_ > 1;
+	my @data = definedvals @_;
+	return unless @data;
+	return ( $data[0], 1 ) unless @data > 1;
 	my %count;
-	foreach(@_) { $count{$_}++; }
+	foreach(@data) { $count{$_}++; }
 	return %count;
 }
 
@@ -228,13 +248,13 @@ This module implements standard deviation and variance calculated by both the un
 =item C<min(@data)>, C<max(@data)>, C<range(@data)>, C<sum(@data)>, C<count(@data)>
 
 Return the minimum value, maximum value, range (max - min),
-sum, or count of values in C<@data>.
+sum, or count of values in C<@data>. Undefined values are ignored.
 (Count simply returns C<scalar(@data)>. B<Please note> that this module does not ignore undefined values in your
 data; instead those are treated as zero.)
 
 =item C<mean(@data)>, C<median(@data)>, C<mode(@data)>
 
-Calculates the mean, median, or mode average of the values in C<@data>.
+Calculates the mean, median, or mode average of the values in C<@data>. Undefined values are ignored.
 (In the event of ties in the mode average, their mean is returned.)
 
 =item C<variance(@data)>, C<stddev(@data)>
@@ -284,7 +304,7 @@ The project lives at https://github.com/brianary/Statistics-Lite
 =head1 COPYRIGHT AND LICENSE
 
 Copyright 2000 Brian Lalonde E<lt>brian@webcoder.infoE<gt>, Nathan Haigh,
-and Alexander Zangerl.
+Alexander Zangerl, and Ton Voon.
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
