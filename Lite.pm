@@ -3,7 +3,7 @@ use strict;
 use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
 require Exporter;
 
-$VERSION = '3.5';
+$VERSION = '3.6';
 @ISA = qw(Exporter);
 @EXPORT = ();
 @EXPORT_OK = qw(min max range sum count mean median mode variance stddev variancep stddevp statshash statsinfo frequencies);
@@ -292,6 +292,10 @@ The C<:all> import tag imports all functions from this module into the
 current namespace (use with caution).
 To import the individual statistical funcitons, use the import tag C<:funcs>;
 use C<:stats> to import C<statshash(@data)> and C<statsinfo(@data)>.
+
+=head1 REPOSITORY
+
+L<https://github.com/brianary/Statistics-Lite>
 
 =head1 AUTHOR
 
