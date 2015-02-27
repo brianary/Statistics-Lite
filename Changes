@@ -1,5 +1,7 @@
 Revision history for Perl extension Statistics::Lite.
 
+3.61  Fri 27 Feb 2015 01:14:44 PM PST 
+    - Upgraded ExtUtils::MakeMaker and repackaged (no functionality changes)
 3.6   Sun 22 Feb 2015 09:59:02 PM PST 
     - Added github repo to dist metadata and pod
 3.5   Sat 21 Feb 2015 11:38:52 PM PST
