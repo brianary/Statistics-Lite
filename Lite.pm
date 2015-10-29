@@ -247,10 +247,13 @@ This module implements standard deviation and variance calculated by both the un
 
 =item C<min(@data)>, C<max(@data)>, C<range(@data)>, C<sum(@data)>, C<count(@data)>
 
-Return the minimum value, maximum value, range (max - min),
+Returns the minimum value, maximum value, range (max - min),
 sum, or count of values in C<@data>. Undefined values are ignored.
-(Count simply returns C<scalar(@data)>. B<Please note> that this module does not ignore undefined values in your
-data; instead those are treated as zero.)
+
+C<count(@data)> simply returns C<scalar(@data)>.
+
+B<Please note> that this module does B<not> ignore undefined values in your
+data; instead, those are B<treated as zero>.
 
 =item C<mean(@data)>, C<median(@data)>, C<mode(@data)>
 
@@ -259,14 +262,14 @@ Calculates the mean, median, or mode average of the values in C<@data>. Undefine
 
 =item C<variance(@data)>, C<stddev(@data)>
 
-Return the standard deviation or variance of C<@data> for a sample (same as Excel's STDEV).
+Returns the standard deviation or variance of C<@data> for a sample (same as Excel's STDEV).
 This is also called the Unbiased Sample Variance and involves dividing the 
 sample's squared deviations by N-1 (the sample count minus 1).
 The standard deviation is just the square root of the variance.
 
 =item C<variancep(@data)>, C<stddevp(@data)>
 
-Return the standard deviation or variance of C<@data> for the population (same as Excel's STDEVP).
+Returns the standard deviation or variance of C<@data> for the population (same as Excel's STDEVP).
 This involves dividing the squared deviations of the population by N (the population size).
 The standard deviation is just the square root of the variance.
 
@@ -281,17 +284,24 @@ Returns a string describing the data set, using the values detailed above.
 
 =item C<frequencies(@data)>
 
-Returns a hash, the keys are the distinct values in the data set,
+Returns a hash. The keys are the distinct values in the data set,
 and the values are the number of times that value occurred in the data set.
 
 =back
 
 =head2 Import Tags
 
-The C<:all> import tag imports all functions from this module into the
-current namespace (use with caution).
-To import the individual statistical funcitons, use the import tag C<:funcs>;
-use C<:stats> to import C<statshash(@data)> and C<statsinfo(@data)>.
+The C<:all> import tag imports all exportable functions from this module into
+the current namespace (use with caution). More specifically, these functions
+are the following: C<min>, C<max>, C<range>, C<sum>, C<count>, C<mean>,
+C<median>, C<mode>, C<variance>, C<stddev>, C<variancep>, C<stddevp>,
+C<statshash>, C<statsinfo>, and C<frequencies>.
+
+To import the statistical functions, use the import tag C<:funcs>.  This
+imports all of the above-mentioned functions, except for C<statshash>,
+C<statsinfo>, and C<frequencies>.
+
+Use C<:stats> to import C<statshash(@data)> and C<statsinfo(@data)>.
 
 =head1 REPOSITORY
 
