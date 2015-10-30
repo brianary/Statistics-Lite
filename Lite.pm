@@ -3,12 +3,12 @@ use strict;
 use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
 require Exporter;
 
-$VERSION = '3.61';
+$VERSION = '3.62';
 @ISA = qw(Exporter);
 @EXPORT = ();
 @EXPORT_OK = qw(min max range sum count mean median mode variance stddev variancep stddevp statshash statsinfo frequencies);
-%EXPORT_TAGS= 
-( 
+%EXPORT_TAGS=
+(
 	all   => [ @EXPORT_OK ],
 	funcs => [qw<min max range sum count mean median mode variance stddev variancep stddevp>],
 	stats => [qw<statshash statsinfo>],
@@ -24,7 +24,7 @@ sub count
 	return scalar definedvals @_;
 }
 
-sub min 
+sub min
 {
 	my @data = definedvals @_;
 	return unless @data;
@@ -34,8 +34,8 @@ sub min
 	return $min;
 }
 
-sub max 
-{ 
+sub max
+{
 	my @data = definedvals @_;
 	return unless @data;
 	return $data[0] unless @data > 1;
@@ -159,7 +159,7 @@ sub statshash
 	foreach(@data) { $sum+= $_; $count{$_}++; }
 	my $mean= $sum/$count;
 	my $maxhits= max(values %count);
-	foreach(keys %count) 
+	foreach(keys %count)
 	{ delete $count{$_} unless $count{$_} == $maxhits; }
 	return
 	(
@@ -232,9 +232,9 @@ This module is a lightweight, functional alternative to larger, more complete,
 object-oriented statistics packages.
 As such, it is likely to be better suited, in general, to smaller data sets.
 
-This is also a module for dilettantes. 
+This is also a module for dilettantes.
 
-When you just want something to give some very basic, high-school-level statistical values, 
+When you just want something to give some very basic, high-school-level statistical values,
 without having to set up and populate an object first, this module may be useful.
 
 =head2 NOTE
@@ -263,7 +263,7 @@ Calculates the mean, median, or mode average of the values in C<@data>. Undefine
 =item C<variance(@data)>, C<stddev(@data)>
 
 Returns the standard deviation or variance of C<@data> for a sample (same as Excel's STDEV).
-This is also called the Unbiased Sample Variance and involves dividing the 
+This is also called the Unbiased Sample Variance and involves dividing the
 sample's squared deviations by N-1 (the sample count minus 1).
 The standard deviation is just the square root of the variance.
 
@@ -309,8 +309,8 @@ L<https://github.com/brianary/Statistics-Lite>
 
 =head1 AUTHOR
 
-Brian Lalonde E<lt>brian@webcoder.infoE<gt>, 
-C<stddev(@data)>, C<stddevp(@data)>, C<variance(@data)>, C<variancep(@data)>, 
+Brian Lalonde E<lt>brian@webcoder.infoE<gt>,
+C<stddev(@data)>, C<stddevp(@data)>, C<variance(@data)>, C<variancep(@data)>,
 additional motivation by Nathan Haigh, with kind support from Alexander Zangerl.
 
 The project lives at https://github.com/brianary/Statistics-Lite

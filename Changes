@@ -1,8 +1,10 @@
 Revision history for Perl extension Statistics::Lite.
 
-3.61  Fri 27 Feb 2015 01:14:44 PM PST 
+3.62  Fri 29 Oct 2015 22:05:05 PM PDT
+    - Improved documentation and better organized tests, from Baldur Kristinsson
+3.61  Fri 27 Feb 2015 01:14:44 PM PST
     - Upgraded ExtUtils::MakeMaker and repackaged (no functionality changes)
-3.6   Sun 22 Feb 2015 09:59:02 PM PST 
+3.6   Sun 22 Feb 2015 09:59:02 PM PST
     - Added github repo to dist metadata and pod
 3.5   Sat 21 Feb 2015 11:38:52 PM PST
     - Exclude undefined values, per CPAN bug # 50448
@@ -13,7 +15,7 @@ Revision history for Perl extension Statistics::Lite.
     - added license info
 3.2   Sun Jun 24 11:13:00 2007
     - updated tests
-3.1   
+3.1
     - fixed and renamed biased (population) versions
     - added unbiased versions
 3.00  Sat Mar  3 16:48:00 2007
@@ -32,4 +34,3 @@ Revision history for Perl extension Statistics::Lite.
     - various optimizations
 0.01  Thu Sep 21 09:56:43 2000
 	- original version; created by h2xs 1.19
-
